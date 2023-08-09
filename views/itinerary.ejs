@@ -1,0 +1,64 @@
+<%- include('_navbar') %>
+<div class="container-fluid" id="CIB-container">
+  <div class="row mt-5">
+    <div class="container" id="CIB-info">
+      <div class="col">
+          <h2>Itinerary</h2>
+          <h5>Create a detailed itinerary with dates and cities, including important information about local customs, popular attractions, and local cuisine to make the most of your trip.</h5>
+          <% if (!authenticated) { %>
+          <h6><i>Ready to update the itinerary? <a href="/signin">Sign in</a> or <a href="/register">register</a> to get started.</i></h6>
+          <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="itinerary_table">
+  <table class="table">
+      <thead>
+          <tr>
+          <th>Date</th>
+          <th>City</th>
+          <th>Comments</th>
+          <th></th>
+          </tr>
+      </thead>
+      <% if (authenticated) { %>
+          <tbody>
+              <% data.forEach(entry => { %>
+                  <tr>
+                    <td><%= entry.date %></td>
+                    <td><%= entry.city %></td>
+                    <td><%= entry.comments %></td>
+                    <td>
+                      <form method="POST" action="/itinerary/<%= entry.id %>/delete">
+                          <input type="hidden" name="id" value="<%= entry.id %>">
+                          <input type="hidden" name="_method" value="DELETE">
+                          <button type="submit" class="btn btn-outline-dark btn-sm">Remove</button>
+                      </form>
+                    </td>
+                  </tr>
+              <% }); %>
+          </tbody>
+          <form method="POST" action="/itinerary">
+              <tr>
+                  <td><input type="text" name="newDate" class="form-control no-border" id="colFormLabelSm" placeholder="Add Date" style="text-align: left; padding-left: 5px;"></td>
+                  <td><input type="text" name="newCity" class="form-control no-border" id="colFormLabelSm" placeholder="Add City" style="text-align: left; padding-left: 5px;"></td>
+                  <td><input type="text" name="newComments" class="form-control no-border" id="colFormLabelSm" placeholder="Add Comments" style="text-align: left; padding-left: 5px;"></td>
+              </tr>
+              <tr>
+                  <td><button type="submit button" class="btn btn-outline-dark btn-sm">Add</button></td>
+              </tr>
+          </form>
+      <% } %>
+      <% if (!authenticated) { %>
+          <tbody>
+              <tr class="unauthenticated">
+                  <td><i>e.g. March 30 - April 3</i></td>
+                  <td><i>e.g. Kaunas</i></td>
+                  <td><i>e.g. Places to visit: Pazaislis Monastery, Kaunas Castle, Oldtown</i></td>
+              </tr>
+          </tbody>
+      <% } %>
+  </table>
+</div>

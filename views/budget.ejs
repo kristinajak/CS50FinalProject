@@ -1,0 +1,111 @@
+<%- include('_navbar') %>
+<div class="container-fluid" id="CIB-container">
+    <div class="row mt-5">
+      <div class="container" id="CIB-info">
+        <div class="col">
+            <h2>Budget</h2>
+            <h5>Traveling is always an option if you know how much you can afford to spend.</h5>
+            <% if (!authenticated) { %>
+            <h6><i>Ready to plan your budget? <a href="/signin">Sign in</a> or <a href="/register">register</a> to get started.</i></h6>
+            <% } %>
+        </div>
+      </div>
+    </div>
+</div>
+<div id="budget_table">
+    <table class="table">
+        <thead>
+            <tr>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Unit Cost</th>
+            <th>Total</th>
+            <th></th>
+            </tr>
+        </thead>
+        <% if (authenticated) { %>
+            <tbody>
+                <% data.forEach(entry => { %>
+                    <tr>
+                        <td><%= entry.description %></td>
+                        <td><%= entry.category %></td>
+                        <td><%= entry.quantity %></td>
+                        <td><%= entry.unit_cost %></td>
+                        <td><%= entry.total %></td>
+                        <td>
+                        <form method="POST" action="/budget/<%= entry.id %>/delete">
+                            <input type="hidden" name="id" value="<%= entry.id %>">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-outline-dark btn-sm">Remove</button>
+                        </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+            <form method="POST" action="/budget">
+                <tr>
+                    <td><input type="text" name="newDescription" class="form-control no-border" placeholder="Add Description"></td>
+                    <td>
+                        <div class="dropdown">
+                            <button id="categoryDropdown" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Choose Category
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" data-value="Transportation">Transportation</a></li>
+                                <li><a class="dropdown-item" href="#" data-value="Accommodation">Accommodation</a></li>
+                                <li><a class="dropdown-item" href="#" data-value="Food">Food</a></li>
+                                <li><a class="dropdown-item" href="#" data-value="Entertainment">Entertainment</a></li>
+                                <li><a class="dropdown-item" href="#" data-value="Administrative">Administrative</a></li>
+                                <li><a class="dropdown-item" href="#" data-value="Shopping">Shopping</a></li>
+                                <li><a class="dropdown-item" href="#" data-value="Other">Other</a></li>
+                            </ul>
+                            <input id="categoryInput" type="hidden" name="newCategory">
+                        </div>
+                    </td>
+                    <td><input type="text" name="newQuantity" class="form-control no-border" placeholder="Add Quantity"></td>
+                    <td><input type="text" name="newUnit_cost" class="form-control no-border" placeholder="Add Cost"></td>
+                    <td><input type="text" name="newTotal" id="newTotal" class="form-control no-border" readonly></td>
+                </tr>
+                <tr>
+                    <td><button type="submit" class="btn btn-outline-dark btn-sm">Add</button></td>
+                </tr>
+            </form>
+            <% if (errorMessage) { %>
+                <div class="card">
+                    <div class="error-message">
+                        <%= errorMessage %>
+                    </div>
+                  </div>
+            <% } %>
+            <tfoot>
+                <tr>
+                    <th colspan="4" class="grandTotal" style="text-align: right;">Grand Total:</th>
+                    <th class="grandTotal"><%= grandTotal %></th>
+                    <th class="grandTotal"></th>
+                </tr>
+            </tfoot>
+            <script src="/budget.js"></script>
+            <% } %>
+            <% if (!authenticated) { %>
+                <tbody>
+                    <tr class="unauthenticated">
+                        <td><i>e.g. Flight Ticket</i></td>
+                        <td><i>e.g. Transportation</i></td>
+                        <td><i>e.g. 2 </i></td>
+                        <td><i>e.g. €400 </i></td>
+                        <td><i>e.g. €800 </i></td>
+                    </tr>
+                    <tr class="unauthenticated">
+                        <td><i>e.g. Lunch</i></td>
+                        <td><i>e.g. Food</i></td>
+                        <td><i>e.g. 2 </i></td>
+                        <td><i>e.g. €20 </i></td>
+                        <td><i>e.g. €40 </i></td>
+                    </tr>
+                </tbody>
+            <% } %>
+    </table>
+  </div>
+
+  

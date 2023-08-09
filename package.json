@@ -1,0 +1,32 @@
+{
+  "name": "plantogo",
+  "version": "1.0.0",
+  "description": "Building a web application using Javascript, SQL, HTML, and CSS that will help to plan your travel. It consists of three main components, such as Item Checklist, Budget, and Itinerary.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "cookie-session": "^2.0.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-flash": "^0.0.2",
+    "express-mysql-session": "^3.0.0",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.0.1",
+    "handsontable": "^12.3.3",
+    "js-cookie": "^3.0.5",
+    "mariadb": "^3.1.1",
+    "method-override": "^3.0.0",
+    "mysql2": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

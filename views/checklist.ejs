@@ -1,0 +1,112 @@
+<div id="checklist" >
+<%- include('_navbar') %>
+<div class="container-fluid" id="CIB-container">
+    <div class="row mt-5">
+      <div class="container" id="CIB-info">
+        <div class="col">
+            <h2>Checklist</h2>
+            <h5>Remember to bring not only the essential items that are important for everyone, but also your personal must-haves that can make your trip complete.</h5>
+            <% if (!authenticated) { %>
+            <h6><i>Ready to update the checklist? <a href="/signin">Sign in</a> or <a href="/register">register</a> to get started.</i></h6>
+            <% } %>
+        </div>
+      </div>
+    </div>
+</div>
+
+  
+<div class="container-fluid m-5">
+  <h5>What do I have on my list?</h5>
+  <div class="row">
+    <% const tableData = [
+      { table: 'documents', items: docsItems },
+      { table: 'general', items: generalItems },
+      { table: 'toiletries', items: toiletriesItems },
+      { table: 'clothes', items: clothesItems},
+      { table: 'medicine', items: medicineItems},
+      { table: 'ToDo', items: ToDoItems }
+    ];
+    tableData.forEach(table => { %>
+      <div class="card m-2 pt-2 pb-2" style="width: 18rem;">
+        <div class="container" id="<%= table.table %>">
+          <h5 class="card-title" id="card-title"><%= table.table.charAt(0).toUpperCase() + table.table.slice(1) %></h5>
+          <ul class="list-unstyled">
+            <% table.items.forEach((item, index) => { %>
+              <li>
+                <div class="form-check d-flex align-items-center">
+                  <% if (authenticated) { %>
+                    <input class="form-check-input" type="checkbox" value="<%= item.item %>" name="itemCheckbox" id="checkbox-<%= table.table %>-<%= item.id %>" onclick="isChecked('<%= table.table %>', '<%= item.id %>', '<%= item.item %>')">
+                  <% } %>
+                  <label class="form-check-label ms-2" for="checkbox-<%= table.table %>-<%= index %>">
+                    <%= item.item %>
+                  </label>
+                  <% if (authenticated) { %>
+                    <form method="POST" action="/checklist/<%= table.table %>/<%= item.id %>?_method=DELETE" style="display: inline;">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <button type="submit" class="btn btn-outline-dark btn-sm" style="--bs-btn-border-color: transparent;"><i class="fa-solid fa-xmark"></i></button>
+                    </form>
+                  <% } %>
+                </div>
+              </li>
+            <% }); %>
+          </ul>
+          <% if (authenticated) { %>
+            <form method="POST" action="/checklist/<%= table.table %>/0">
+              <div type="submit">
+                <div class="col-sm-10">
+                  <input type="text" name="newItem" class="form-control form-control-sm shadow-sm shadow-custom" id="colFormLabelSm" placeholder="Add Item">
+                </div>
+              </div>
+            </form>
+          <% } %>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<div class="container-fluid m-5">
+  <h5>I already have in my bags...</h5>
+  <div class="row">
+    <% const tableDataChecked = [
+      { table: 'documents_checked', items: docsItemsChecked },
+      { table: 'general_checked', items: generalItemsChecked },
+      { table: 'toiletries_checked', items: toiletriesItemsChecked },
+      { table: 'clothes_checked', items: clothesItemsChecked },
+      { table: 'medicine_checked', items: medicineItemsChecked },
+      { table: 'ToDo_checked', items: ToDoItemsChecked }
+    ];
+    tableDataChecked.forEach(table => { %>
+      <div class="card m-2 pt-2 pb-2" style="width: 18rem;">
+        <div class="container" id="<%= table.table %>">
+          <h5 class="card-title" id="card-title"><%= getFirstWord(table.table) %></h5>
+          <ul class="list-unstyled">
+            <% table.items.forEach(item => { %>
+              <li>
+                <div class="d-flex align-items-center">
+                  <label class="ms-2"><%= item.item %></label>
+                </div>
+              </li>
+            <% }); %>
+          </ul>
+          <% if (authenticated) { %>
+            <form method="POST" action="/checklist/<%= table.table %>_checked/0">
+            </form>
+          <% } %>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+<% if (authenticated) { %>
+  <div class="container-fluid m-5">
+    <h5>Ready for a new trip?</h5>
+    <p class="fst-italic">Press the button to update your checklist once again. Please note: all your checked items will be moved to unchecked. </p>
+    <form method="POST" action="/checklist/updateChecklist">
+      <div type="submit">
+        <button type="submit" class="btn btn-outline-dark">Update Checklist</button>
+      </div>
+    </form>
+  </div>
+<% } %>
+</div>

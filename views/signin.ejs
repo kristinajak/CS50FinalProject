@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid ms-5 me-5">
+    <a class="navbar-brand" href="/"><i class="fa-solid fa-mountain-sun"></i>PlanToGo</a>
+  </div>
+</nav>
+
+<div class="container w-50 p-3">
+  <% if (errorMsg) { %>
+    <div class="alert alert-danger" role="alert">
+      <%= errorMsg %>
+    </div>
+  <% } %>
+  <form method="POST">
+    <div class="row align-items-end">
+      <div class="col">
+        <label class="form-label">Email address</label>
+        <input type="email" class="form-control" name="email" placeholder="name@example.com">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" aria-labelledby="passwordHelpBlock">
+        <button type="submit" class="btn btn-outline-dark">Submit</button>
+      </div>
+    </div>
+  </form>
+  <a href="/register">Do not have an account? Register </a>
+</div>
